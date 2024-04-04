@@ -19,7 +19,7 @@ roi = None
 tracker = trackers[tracker_key]()
 
 # Open video capture
-cap = cv2.VideoCapture"rtsp://gaian1234:gaian1234@192.168.0.188/stream1")#(0)#(rtsp://camerausername:camerapassword@camerawifiip/stream1(or)stream2)
+cap = cv2.VideoCapture("rtsp://gaian1234:gaian1234@192.168.0.188/stream1")#(0)#(rtsp://camerausername:camerapassword@camerawifiip/stream1(or)stream2)
 
 box = None
 
