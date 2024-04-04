@@ -19,7 +19,7 @@ roi = None
 tracker = trackers[tracker_key]()
 
 # Open video capture
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture"rtsp://gaian1234:gaian1234@192.168.0.188/stream1")#(0)#(rtsp://camerausername:camerapassword@camerawifiip/stream1(or)stream2)
 
 box = None
 
@@ -67,6 +67,7 @@ while True:
                         print("Bounding box:", (x, y, w, h))
                         if x <= 0 or y <= 0 or x + w > frame_width or y + h > frame_height:
                             print("Object removed")
+                            cv2.imwrite('object_removed_screenshot.jpg', frame)
                             roi = None
 
     # Show frame
