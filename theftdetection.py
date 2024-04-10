@@ -27,9 +27,13 @@ def detecting():
     cap = cv2.VideoCapture('test.mp4')#("rtsp://gaian1234:gaian1234@192.168.0.192/stream1")#(0)#(rtsp://camerausername:camerapassword@camerawifiip/stream1(or)stream2)
 
     box = None
-    #url = "https://ig.gaiansolutions.com/mobius-content-service/v1.0/content/upload?override=true&filePath=%2Fbottle%2Flimka%2Fsoda%2F&filePathAccess=private"
+    url = "https://ig.gaiansolutions.com/mobius-content-service/v1.0/content/upload?override=true&filePath=%2Fbottle%2Flimka%2Fsoda%2F&filePathAccess=private"
 
-    #payload={}
+    payload={}
+    files=[]
+    headers = {
+    'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZmOGYxNjhmLTNmZjYtNDZlMi1iMTJlLWE2YTdlN2Y2YTY5MCJ9.eyJwcm9maWxlVXJsIjoid3d3Lmdvb2dsZS5jb20vaW1hZ2VzL2F2aW5hc2gtcGF0ZWwtcm9ja3oiLCJyZWNlbnRfc2Vzc2lvbiI6Ik5BIiwic3ViIjoiZ2FpYW4uY29tIiwicGFyZW50VGVuYW50SWQiOiJOQSIsImNvbG9yIjpudWxsLCJ1c2VyX25hbWUiOiJtb2JpbGUxMEBnYXRlc3RhdXRvbWF0aW9uLmNvbSIsImlzcyI6ImdhaWFuLmNvbSIsImlzQWRtaW4iOnRydWUsInBsYXRmb3JtSWQiOiI2NWNmMGU1MWMzNGZmYjA3ZDg1NTQ4YWUiLCJ1c2VyTmFtZSI6Im1vYmlsZTEwQGdhdGVzdGF1dG9tYXRpb24uY29tIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9NQVJLRVRQTEFDRV9VU0VSIl0sImNsaWVudF9pZCI6ImdhaWFuIiwic2NvcGUiOlsidHJ1c3QiLCJyZWFkIiwid3JpdGUiXSwidGVuYW50SWQiOiI2NWNmMGJkNzlkNTU0MjAwMDFhYTdjMjIiLCJsb2dvIjoid3d3Lmdvb2dsZS5jb20vaW1hZ2VzLiIsImV4cCI6MTcwODExMjEyMiwianRpIjoiYzM1NDdlYjUtMGY3Yi00YWMyLTg4ZDgtMTI1YzY0ZDcxOTgzIiwiZW1haWwiOiJtaWFzdGVzdGVudkBnYXRlc3RhdXRvbWF0aW9uLmNvbSJ9.i-I_6i_I6r8_fWAf0d-uZEZxxcFfcOjheYApaN9PRZx7OhFd0mw-GTlbjRgVyQK2Nm5cVfNt6KdXM7elm3rS1MPJOPZqr5n6fmh7Jg1vo8i4b0gyNT5N3XxVNMUQATK2sZsPZFOS1p6hZzE2kZ4mtvuXgxGtHpbSNhzgf7iShBFFGD-pUBQ3DRYM5BkbkORpgzyizgA0Qd0LOiLMJKrasjnGtNUfDcHHTd6YTfkSIA649YNDh5sWKl2CbD5UkIJie7m8roLl3Ipuu4At8Y5qlgh14XaU5jXrCV-Uy7Ze8TQyWEqYD07RQZb0E3KrndjQojG8WS3IM5yBOLAI3fsWMQeyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZmOGYxNjhmLTNmZjYtNDZlMi1iMTJlLWE2YTdlN2Y2YTY5MCJ9.eyJwcm9maWxlVXJsIjoid3d3Lmdvb2dsZS5jb20vaW1hZ2VzL2F2aW5hc2gtcGF0ZWwtcm9ja3oiLCJyZWNlbnRfc2Vzc2lvbiI6Ik5BIiwic3ViIjoiZ2FpYW4uY29tIiwicGFyZW50VGVuYW50SWQiOiJOQSIsImNvbG9yIjpudWxsLCJ1c2VyX25hbWUiOiJtb2JpbGUxMEBnYXRlc3RhdXRvbWF0aW9uLmNvbSIsImlzcyI6ImdhaWFuLmNvbSIsImlzQWRtaW4iOnRydWUsInBsYXRmb3JtSWQiOiI2NWNmMGU1MWMzNGZmYjA3ZDg1NTQ4YWUiLCJ1c2VyTmFtZSI6Im1vYmlsZTEwQGdhdGVzdGF1dG9tYXRpb24uY29tIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9NQVJLRVRQTEFDRV9VU0VSIl0sImNsaWVudF9pZCI6ImdhaWFuIiwic2NvcGUiOlsidHJ1c3QiLCJyZWFkIiwid3JpdGUiXSwidGVuYW50SWQiOiI2NWNmMGJkNzlkNTU0MjAwMDFhYTdjMjIiLCJsb2dvIjoid3d3Lmdvb2dsZS5jb20vaW1hZ2VzLiIsImV4cCI6MTcwODExMjEyMiwianRpIjoiYzM1NDdlYjUtMGY3Yi00YWMyLTg4ZDgtMTI1YzY0ZDcxOTgzIiwiZW1haWwiOiJtaWFzdGVzdGVudkBnYXRlc3RhdXRvbWF0aW9uLmNvbSJ9.i-I_6i_I6r8_fWAf0d-uZEZxxcFfcOjheYApaN9PRZx7OhFd0mw-GTlbjRgVyQK2Nm5cVfNt6KdXM7elm3rS1MPJOPZqr5n6fmh7Jg1vo8i4b0gyNT5N3XxVNMUQATK2sZsPZFOS1p6hZzE2kZ4mtvuXgxGtHpbSNhzgf7iShBFFGD-pUBQ3DRYM5BkbkORpgzyizgA0Qd0LOiLMJKrasjnGtNUfDcHHTd6YTfkSIA649YNDh5sWKl2CbD5UkIJie7m8roLl3Ipuu4At8Y5qlgh14XaU5jXrCV-Uy7Ze8TQyWEqYD07RQZb0E3KrndjQojG8WS3IM5yBOLAI3fsWMQ'
+    }
     #data = {
     #    "theftdetected":"Yes"
     #}
@@ -80,8 +84,21 @@ def detecting():
                                 print("Object removed")
                                 cv2.imwrite('object_removed_screenshot.jpg', frame)
                                 # call test file
-                            
+                                #response = requests.request("POST", url, headers=headers, data=payload, files=files)
+                                #requests.post(url, headers=headers, data=payload, files=files)
+                                try:
+                                    files = {'image': open('object_removed_screenshot.jpg', 'rb')}
+                                    response = requests.post(url, headers=headers, files=files)
+                                    if response.status_code == 200:
+                                        print("Image successfully sent.")
+                                    else:
+                                        print("Error:", response.status_code)
+                                except Exception as e:
+                                    print("Error sending image:", e)
+
                                 roi = None
+                                #if 'object_removed_screenshot.jpg' in files:
+                                 #   response = requests.request("POST", url,  headers=headers, data=payload, files=files)
 
         # Show frame
         cv2.imshow('Tracking', frame)
@@ -99,21 +116,5 @@ def detecting():
     cv2.destroyAllWindows()
 
 
-def sender():
-    url = "https://ig.gaiansolutions.com/mobius-content-service/v1.0/content/upload?override=true&filePath=%2Fbottle%2Flimka%2Fsoda%2F&filePathAccess=private"
-
-    payload = {}
-    files=[
-    ('file',('object_removed_screenshot.jpg',open('/home/pavan/theftdetection/object_removed_screenshot.jpg','rb'),'image/jpeg'))
-    ]
-    headers = {
-    'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZmOGYxNjhmLTNmZjYtNDZlMi1iMTJlLWE2YTdlN2Y2YTY5MCJ9.eyJwcm9maWxlVXJsIjoid3d3Lmdvb2dsZS5jb20vaW1hZ2VzL2F2aW5hc2gtcGF0ZWwtcm9ja3oiLCJyZWNlbnRfc2Vzc2lvbiI6Ik5BIiwic3ViIjoiZ2FpYW4uY29tIiwicGFyZW50VGVuYW50SWQiOiJOQSIsImNvbG9yIjpudWxsLCJ1c2VyX25hbWUiOiJtb2JpbGUxMEBnYXRlc3RhdXRvbWF0aW9uLmNvbSIsImlzcyI6ImdhaWFuLmNvbSIsImlzQWRtaW4iOnRydWUsInBsYXRmb3JtSWQiOiI2NWNmMGU1MWMzNGZmYjA3ZDg1NTQ4YWUiLCJ1c2VyTmFtZSI6Im1vYmlsZTEwQGdhdGVzdGF1dG9tYXRpb24uY29tIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9NQVJLRVRQTEFDRV9VU0VSIl0sImNsaWVudF9pZCI6ImdhaWFuIiwic2NvcGUiOlsidHJ1c3QiLCJyZWFkIiwid3JpdGUiXSwidGVuYW50SWQiOiI2NWNmMGJkNzlkNTU0MjAwMDFhYTdjMjIiLCJsb2dvIjoid3d3Lmdvb2dsZS5jb20vaW1hZ2VzLiIsImV4cCI6MTcwODExMjEyMiwianRpIjoiYzM1NDdlYjUtMGY3Yi00YWMyLTg4ZDgtMTI1YzY0ZDcxOTgzIiwiZW1haWwiOiJtaWFzdGVzdGVudkBnYXRlc3RhdXRvbWF0aW9uLmNvbSJ9.i-I_6i_I6r8_fWAf0d-uZEZxxcFfcOjheYApaN9PRZx7OhFd0mw-GTlbjRgVyQK2Nm5cVfNt6KdXM7elm3rS1MPJOPZqr5n6fmh7Jg1vo8i4b0gyNT5N3XxVNMUQATK2sZsPZFOS1p6hZzE2kZ4mtvuXgxGtHpbSNhzgf7iShBFFGD-pUBQ3DRYM5BkbkORpgzyizgA0Qd0LOiLMJKrasjnGtNUfDcHHTd6YTfkSIA649YNDh5sWKl2CbD5UkIJie7m8roLl3Ipuu4At8Y5qlgh14XaU5jXrCV-Uy7Ze8TQyWEqYD07RQZb0E3KrndjQojG8WS3IM5yBOLAI3fsWMQeyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZmOGYxNjhmLTNmZjYtNDZlMi1iMTJlLWE2YTdlN2Y2YTY5MCJ9.eyJwcm9maWxlVXJsIjoid3d3Lmdvb2dsZS5jb20vaW1hZ2VzL2F2aW5hc2gtcGF0ZWwtcm9ja3oiLCJyZWNlbnRfc2Vzc2lvbiI6Ik5BIiwic3ViIjoiZ2FpYW4uY29tIiwicGFyZW50VGVuYW50SWQiOiJOQSIsImNvbG9yIjpudWxsLCJ1c2VyX25hbWUiOiJtb2JpbGUxMEBnYXRlc3RhdXRvbWF0aW9uLmNvbSIsImlzcyI6ImdhaWFuLmNvbSIsImlzQWRtaW4iOnRydWUsInBsYXRmb3JtSWQiOiI2NWNmMGU1MWMzNGZmYjA3ZDg1NTQ4YWUiLCJ1c2VyTmFtZSI6Im1vYmlsZTEwQGdhdGVzdGF1dG9tYXRpb24uY29tIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9NQVJLRVRQTEFDRV9VU0VSIl0sImNsaWVudF9pZCI6ImdhaWFuIiwic2NvcGUiOlsidHJ1c3QiLCJyZWFkIiwid3JpdGUiXSwidGVuYW50SWQiOiI2NWNmMGJkNzlkNTU0MjAwMDFhYTdjMjIiLCJsb2dvIjoid3d3Lmdvb2dsZS5jb20vaW1hZ2VzLiIsImV4cCI6MTcwODExMjEyMiwianRpIjoiYzM1NDdlYjUtMGY3Yi00YWMyLTg4ZDgtMTI1YzY0ZDcxOTgzIiwiZW1haWwiOiJtaWFzdGVzdGVudkBnYXRlc3RhdXRvbWF0aW9uLmNvbSJ9.i-I_6i_I6r8_fWAf0d-uZEZxxcFfcOjheYApaN9PRZx7OhFd0mw-GTlbjRgVyQK2Nm5cVfNt6KdXM7elm3rS1MPJOPZqr5n6fmh7Jg1vo8i4b0gyNT5N3XxVNMUQATK2sZsPZFOS1p6hZzE2kZ4mtvuXgxGtHpbSNhzgf7iShBFFGD-pUBQ3DRYM5BkbkORpgzyizgA0Qd0LOiLMJKrasjnGtNUfDcHHTd6YTfkSIA649YNDh5sWKl2CbD5UkIJie7m8roLl3Ipuu4At8Y5qlgh14XaU5jXrCV-Uy7Ze8TQyWEqYD07RQZb0E3KrndjQojG8WS3IM5yBOLAI3fsWMQ'
-    }
-
-    response = requests.request("POST", url, headers=headers, data=payload, files=files)
-
-    print(response.text)
-
 
 detecting()
-sender()
